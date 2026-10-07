@@ -168,7 +168,7 @@ python -m knowlight.training.train_intent_augmented_lightgcn --dataset movielens
 
 ### 1. Student Model Evaluation
 
-Evaluate a trained LightGCN student checkpoint on the test set by computing **Recall@K**, **NDCG@K**, **Precision@K** for $K \in \{5, 10, 20\}$.
+Evaluate a trained LightGCN student checkpoint on the test set by computing **Recall@K**, **NDCG@K**, **Precision@K** for $K \in \\{5, 10, 20\\}$.
 
 ```bash
 # Evaluate the latest distilled student checkpoint
