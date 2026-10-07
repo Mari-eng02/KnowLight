@@ -1,0 +1,38 @@
+# KnowLight LLM Teacher Fine-Tuning - Full Training Configuration
+
+model_path: "models/Qwen3.5-4B"
+dataset: "movielens"
+
+training:
+  epochs: 3
+  batch_size: 4
+  grad_steps: 4
+  max_length: 2048
+  learning_rate: 0.0002
+  lr_scheduler_type: "cosine"
+  warmup_ratio: 0.03
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  save_steps: 500 
+  eval_steps: 500 
+
+lora:
+  quantization: null # "4bit", "8bit", or null
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules:
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+
+mock:
+  max_samples: 0 # 0 = full dataset
+  max_steps: -1  # -1 = full training epochs
+
+extraction:
+  batch_size: 16 # Batch size for score extraction inference after fine-tuning

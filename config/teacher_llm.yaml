@@ -1,0 +1,19 @@
+# KnowLight LLM Teacher Configuration
+
+llm:
+  model_name_or_path: "Qwen/Qwen3.5-4B"
+  torch_dtype: "bfloat16" # "float16", "bfloat16", "float32"
+  device_map: "auto"
+  use_mock: false
+  max_length: 2048
+  quantization: null
+
+  extraction:
+    embedding_layer: -1 # last hidden layer pooling for semantic embeddings
+    pooling_method: "mean" # "mean", "last", "cls"
+
+  prompt:
+    max_history_length: 10
+    max_neighbors_hop1: 10
+    max_neighbors_hop2: 10
+    max_candidates: 5

@@ -1,0 +1,36 @@
+# KnowLight LLM Teacher Fine-Tuning - Fast Mock Test Configuration
+
+model_path: "models/Qwen3.5-4B"
+dataset: "movielens"
+
+training:
+  epochs: 1
+  batch_size: 1
+  grad_steps: 1
+  max_length: 1024
+  learning_rate: 0.0002
+  lr_scheduler_type: "cosine"
+  warmup_ratio: 0.03
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+
+lora:
+  quantization: "4bit" # "4bit", "8bit", or null
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules:
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+
+mock:
+  max_samples: 20
+  max_steps: 5
+
+extraction:
+  batch_size: 4 # Batch size for score extraction inference after fine-tuning

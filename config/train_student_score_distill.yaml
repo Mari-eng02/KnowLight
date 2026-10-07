@@ -1,0 +1,73 @@
+# KnowLight Pipeline 1: Score Distillation Configuration
+
+experiment:
+  name: "knowlight_score_distillation"
+  pipeline: "score_distillation"
+  seed: 42
+  device: "cuda"
+
+dataset:
+  name: "movielens"
+  data_dir: "./data/raw"
+  min_uc: 10
+  min_ic: 10
+  test_ratio: 0.2
+  val_ratio: 0.1
+
+student:
+  model: "lightgcn"
+  embedding_dim: 64
+  n_layers: 3
+  keep_prob: 0.6
+  a_fold: 100
+
+distillation:
+  active: true
+  type: "score"
+  # Score Distillation (MSE) defaults
+  alpha: 1.0   # Weight for BPR Loss L_BPR
+  beta: 0.1    # Weight for Score Distillation Loss L_D (MSE)
+  # RRD (Ranking-Reserved Distillation) defaults
+  lambda_rrd: 0.1
+  interesting_size: 5
+  uninteresting_size: 50
+  temperature_rrd: 1.0
+  teacher_topk: 500
+  # UnKD (Unbiased Knowledge Distillation) defaults
+  lambda_unkd: 0.1
+  sample_num: 30
+  group_count: 4
+  popularity_lambda: 1.0
+  rank_top_k: 1000
+  rank_temperature: 20.0
+
+training:
+  epochs: 1000
+  batch_size: 1024
+  lr: 0.001
+  weight_decay: 0.01
+  eval_step: 1
+  patience: 10
+  num_workers: 4
+
+# Optimal dataset-specific hyperparameter overrides
+dataset_hyperparams:
+  movielens:
+    lr: 0.01
+    weight_decay: 0.001
+  amazon_cd_2014:
+    lr: 0.001
+    weight_decay: 0.0001
+  amazon_toys_and_games:
+    lr: 0.001
+    weight_decay: 0.001
+  amazon_beauty:
+    lr: 0.001
+    weight_decay: 0.001
+  yelp:
+    lr: 0.001
+    weight_decay: 0.0001
+
+evaluation:
+  top_k: [5, 10, 20]
+

@@ -1,0 +1,30 @@
+name: knowlight
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - numpy>=1.26,<2.0
+  - scipy>=1.13,<1.14
+  - pandas>=2.2
+  - scikit-learn>=1.5,<1.6
+  - pyyaml>=6.0
+  - tqdm>=4.66
+  - pip:
+      - --extra-index-url https://download.pytorch.org/whl/cu124
+      - torch==2.6.0
+      - torchvision==0.21.0
+      - torchaudio==2.6.0
+      - transformers
+      - accelerate
+      - bitsandbytes
+      - peft
+      - datasets
+      - sentencepiece
+      - safetensors
+      - trl
+      - datarec
+      - einops
+
+     

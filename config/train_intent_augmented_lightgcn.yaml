@@ -1,0 +1,65 @@
+# Intent-Guided Graph Augmentation Configuration
+# Injects semantic pseudo-edges into LightGCN's adjacency matrix derived from LLM User Intents
+
+experiment:
+  name: "knowlight_intent_graph_augmentation"
+  pipeline: "intent_graph_augmentation"
+  seed: 42
+  device: "cuda"
+
+dataset:
+  name: "movielens"
+  data_dir: "./data/raw"
+  min_uc: 10
+  min_ic: 10
+  test_ratio: 0.2
+  val_ratio: 0.1
+
+teacher:
+  name: "Llama-3-8B-Instruct"
+
+graph_augmentation:
+  active: true
+  top_k_pseudo: 2         # Default number of semantic candidate items to attach per user
+  pseudo_weight: 0.5       # Default weight scaling factor alpha (w_ui = alpha * Sim(u, i))
+  sim_threshold: 0.0       # Minimum cosine similarity threshold to attach pseudo-edge
+  top_k_list: [1, 2, 5, 8, 10]              # Values explored during Grid Search
+  weight_list: [0.1, 0.2, 0.5, 0.8, 1.0]     # Weights explored during Grid Search
+  use_cache: true          # Cache augmented sparse matrices to disk
+
+student:
+  model: "lightgcn"
+  embedding_dim: 64
+  n_layers: 3
+  keep_prob: 0.6
+  a_fold: 100
+
+training:
+  epochs: 1000
+  batch_size: 1024
+  lr: 0.001
+  weight_decay: 0.01
+  eval_step: 1
+  patience: 10
+  num_workers: 4
+
+# Optimal dataset-specific hyperparameter overrides
+dataset_hyperparams:
+  movielens:
+    lr: 0.01
+    weight_decay: 0.001
+  amazon_cd_2014:
+    lr: 0.001
+    weight_decay: 0.0001
+  amazon_toys_and_games:
+    lr: 0.001
+    weight_decay: 0.001
+  amazon_beauty:
+    lr: 0.001
+    weight_decay: 0.001
+  yelp:
+    lr: 0.001
+    weight_decay: 0.0001
+
+evaluation:
+  top_k: [5, 10, 20]

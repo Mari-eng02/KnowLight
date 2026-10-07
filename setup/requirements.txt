@@ -1,0 +1,26 @@
+# Core Deep Learning Framework
+torch==2.6.0
+torchvision==0.21.0
+torchaudio==2.6.0
+
+# Recommendation & Graph Data Processing
+datarec
+numpy>=1.26,<2.0
+scipy>=1.13,<1.14
+pandas>=2.2
+scikit-learn>=1.5,<1.6
+
+# LLM & Transformers (Qwen / LLaMA Teachers)
+transformers
+accelerate
+peft
+bitsandbytes
+datasets
+sentencepiece
+safetensors
+trl
+einops
+
+# Utilities
+pyyaml>=6.0
+tqdm>=4.66
